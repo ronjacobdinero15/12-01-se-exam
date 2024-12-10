@@ -3,6 +3,7 @@ import ApplicantJobTable from '../ui/ApplicantJobTable'
 import Container from '../ui/Container'
 import Header from '../ui/Header'
 import Logout from '../ui/Logout'
+import Messages from '../ui/Messages'
 import SearchQuery from '../ui/SearchQuery'
 
 function ApplicantDashboard() {
@@ -18,14 +19,14 @@ function ApplicantDashboard() {
         <Logout />
       </Container>
 
-      <div className="grid grid-cols-[2fr_1fr]">
+      <div className="grid grid-cols-[2fr_1fr] gap-x-5">
         <div className="space-y-5">
           <SearchQuery />
 
           <ApplicantJobTable />
         </div>
 
-        <div></div>
+        <Messages />
       </div>
     </main>
   )

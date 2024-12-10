@@ -20,10 +20,10 @@ function HrJobTable({ jobsPosted }) {
         <tbody>
           {jobsPosted.length > 0 &&
             jobsPosted.map(job => (
-              <TableRow key={job.id} className="hover:bg-gray-100">
-                <td className="w-[5rem]">{job.id}</td>
-                <td>{job.jobTitle}</td>
-                <td>{job.jobDescription}</td>
+              <TableRow key={job.job_id} className="hover:bg-gray-100">
+                <td className="w-[5rem]">{job.job_id}</td>
+                <td>{job.job_title}</td>
+                <td>{job.job_description}</td>
                 <td className="w-[15rem]">{formatDate(job.created_at)}</td>
                 <td className="w-[1rem]">
                   <HiMiniEllipsisVertical />

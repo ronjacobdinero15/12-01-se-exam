@@ -8,18 +8,24 @@ import { useSession } from '../hooks/useSession'
 const ApplicantJobTable = () => {
   const { jobs, error, isLoading } = useGetAllJobs()
   const { applyJob, isApplying } = useApplyJob()
-  const { id: applicant_id } = useSession()
+  const {
+    id: applicant_id,
+    fullName: applicant_name,
+    yearsOfExp: years_of_experience,
+  } = useSession()
 
   if (isLoading) return <Spinner size="lg" />
 
   if (error) return <p>{error.message}</p>
 
-  function handleApplyJob(id, jobTitle, jobDescription, hr_id) {
+  function handleApplyJob(job_id, job_title, job_description, hr_id) {
     applyJob({
-      job_id: id,
-      jobTitle,
-      jobDescription,
+      job_id,
+      job_title,
+      job_description,
       applicant_id,
+      applicant_name,
+      years_of_experience,
       hr_id,
     })
   }
@@ -28,24 +34,26 @@ const ApplicantJobTable = () => {
     <Table>
       <thead>
         <TableRow style="header">
+          <th>Job ID</th>
           <th>Job Title</th>
           <th>Description</th>
           <th>Apply</th>
         </TableRow>
       </thead>
 
-      <tbody>
+      <tbody className="rounded-md">
         {jobs.map(job => (
-          <TableRow key={job.id}>
-            <td className="text-gray-800 w-[20rem]">{job.jobTitle}</td>
-            <td className="text-gray-600 ">{job.jobDescription}</td>
+          <TableRow key={job.job_id}>
+            <td className="text-gray-800 w-[6rem]">{job.job_id}</td>
+            <td className="text-gray-800 w-[20rem]">{job.job_title}</td>
+            <td className="text-gray-600 ">{job.job_description}</td>
             <td className="w-[5rem]">
               <Button
                 onClick={() =>
                   handleApplyJob(
-                    job.id,
-                    job.jobTitle,
-                    job.jobDescription,
+                    job.job_id,
+                    job.job_title,
+                    job.job_description,
                     job.hr_id
                   )
                 }

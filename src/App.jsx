@@ -17,6 +17,7 @@ import ProtectedRoute from './ui/ProtectedRoute'
 import Register from './pages/Register'
 import CreateJob from './pages/CreateJob'
 import Applicants from './pages/Applicants'
+import Employees from './pages/Employees'
 
 const queryClient = new QueryClient()
 
@@ -55,6 +56,7 @@ function App() {
               <Route index element={<HrDashboard />} />
               <Route path="post-job" element={<CreateJob />} />
               <Route path="applicants" element={<Applicants />} />
+              <Route path="employees" element={<Employees />} />
             </Route>
           </Route>
 

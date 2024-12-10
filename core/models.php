@@ -27,6 +27,8 @@ function login($pdo, $username, $password) {
             "status" => 200,
             "id" => $userInfo['applicant_id'] ?? $userInfo['hr_id'], // Choose correct ID column
             "username" => $userInfo['username'],
+            "fullName" => $userInfo['full_name'],
+            "yearsOfExp" => $userInfo['years_of_experience'] ?? null,
             "role" => $loginQuery['role'],
             "message" => "{$userInfo['username']} logged in successfully."
         ];
@@ -71,7 +73,7 @@ function getAllJobs($pdo) {
 	}
 }
 
-function getJobApplications($pdo, $hr_id) {
+function getPendingApplications($pdo, $hr_id) {
 	$sql = "SELECT * FROM job_applications WHERE hr_id = ?";
 	$stmt = $pdo->prepare($sql);
 	$executeQuery = $stmt->execute([$hr_id]);
@@ -153,10 +155,10 @@ function jobPost($pdo, $jobTitle, $jobDescription, $created_by) {
     }
 }
 
-function applyJob($pdo, $job_id, $jobTitle, $jobDescription, $applicant_id, $hr_id) {
-    $sql = "INSERT INTO job_applications (job_id, jobTitle, jobDescription, applicant_id, hr_id) VALUES(?,?,?,?,?)";
+function applyJob($pdo, $job_id, $job_title, $job_description, $applicant_id, $applicant_name, $years_of_experience, $hr_id) {
+    $sql = "INSERT INTO job_applications (job_id, job_title, job_description, applicant_id, applicant_name, years_of_experience, hr_id) VALUES(?,?,?,?,?,?,?)";
     $stmt = $pdo->prepare($sql);
-    $executeQuery = $stmt->execute([$job_id, $jobTitle, $jobDescription, $applicant_id, $hr_id]);
+    $executeQuery = $stmt->execute([$job_id, $job_title, $job_description, $applicant_id, $applicant_name, $years_of_experience, $hr_id]);
 
     if ($executeQuery) {
         return [
@@ -170,6 +172,7 @@ function applyJob($pdo, $job_id, $jobTitle, $jobDescription, $applicant_id, $hr_
         ];
     }
 }
+
 
 
 // function insertDoctor($pdo, $email, $username, $password, $first_name, $last_name, $years_of_experience, $specialization, $contact, $activeUserId, $activeUser) {
@@ -206,6 +209,24 @@ function applyJob($pdo, $job_id, $jobTitle, $jobDescription, $applicant_id, $hr_
 //         ];
 //     }
 // }
+
+function updateApplicantStatus($pdo, $application_id, $decision_status) {
+    $sql = "UPDATE job_applications SET status = ? WHERE application_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $executeQuery = $stmt->execute([$decision_status, $application_id]);
+
+    if ($executeQuery) {
+        return [
+            "success" => 200, 
+            "message" => "Application status successfully updated!" 
+        ];
+    } else {
+        return [
+            "success" => 400, 
+            "message" => "An error occurred from the query" 
+        ];
+    }
+}
 
 // function updateDoctor($pdo, $doctor_id, $email, $username, $first_name, $last_name, $years_of_experience, $specialization, $contact, $activeUserId, $activeUser) {  
 //     $sql = "UPDATE doctors SET email = ?, username = ?, first_name = ?, last_name = ?, years_of_experience = ?, specialization = ?, contact = ? WHERE doctor_id = ?";

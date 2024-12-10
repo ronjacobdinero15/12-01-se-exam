@@ -27,8 +27,8 @@ function handleGet($pdo) {
         case 'getJobsPosted':
             echo json_encode(getJobsPosted($pdo, $_GET['hr_id']));
             break;
-        case 'getJobApplications':
-            echo json_encode(getJobApplications($pdo, $_GET['hr_id']));
+        case 'getPendingApplications':
+            echo json_encode(getPendingApplications($pdo, $_GET['hr_id']));
             break;
         // case 'getDoctorByID':
         //     echo json_encode(getDoctorByID($pdo, $_GET['doctor_id']));
@@ -52,7 +52,7 @@ function handlePost($pdo) {
             echo json_encode(jobPost($pdo, $data['jobTitle'], $data['jobDescription'], $data['created_by']));
             break;
         case 'applyJob':
-            echo json_encode(applyJob($pdo, $data['job_id'], $data['jobTitle'], $data['jobDescription'], $data['applicant_id'], $data['hr_id']));
+            echo json_encode(applyJob($pdo, $data['job_id'], $data['job_title'], $data['job_description'], $data['applicant_id'], $data['applicant_name'], $data['years_of_experience'], $data['hr_id']));
             break;
         // case 'searchDoctor':
         //     echo json_encode(searchDoctor($pdo, $data['searchQuery'], $data['activeUserId'], $data['activeUser']));
@@ -72,6 +72,9 @@ function handlePut($pdo) {
     $data = json_decode(file_get_contents("php://input"), true);
 
     switch ($_GET['action']) {
+        case 'updateApplicantStatus':
+            echo json_encode(updateApplicantStatus($pdo, $data['application_id'], $data['decision_status']));
+            break;
         // case 'updateDoctor':
         //     echo json_encode(updateDoctor($pdo, $_GET['doctor_id'], $data['email'], $data['username'], $data['first_name'], $data['last_name'], $data['years_of_experience'], $data['specialization'], $data['contact'], $data['activeUserId'], $data['activeUser']));
         //     break;

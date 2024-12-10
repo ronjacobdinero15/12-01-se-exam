@@ -10,14 +10,17 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ username, password }) => loginApi(username, password),
     onSettled: activeUser => {
-      const { status, id, username, role, message } = activeUser
+      const { status, id, username, fullName, yearsOfExp, role, message } =
+        activeUser
       if (status === 200) {
         toast.success(message)
         sessionStorage.setItem(
           'activeUser',
           JSON.stringify({
-            username,
             id,
+            username,
+            fullName,
+            yearsOfExp,
             role,
           })
         )
