@@ -1,30 +1,66 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom'
-import AppLayout from './ui/AppLayout'
-import Dashboard from './pages/Dashboard'
-import PageNotFound from './pages/PageNotFound'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'react-hot-toast'
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom'
+import { useSession } from './hooks/useSession'
+import ApplicantDashboard from './pages/ApplicantDashboard'
+import HrDashboard from './pages/HrDashboard'
+import Login from './pages/Login'
+import PageNotFound from './pages/PageNotFound'
+import AppLayout from './ui/AppLayout'
+import ProtectedRoute from './ui/ProtectedRoute'
+import Register from './pages/Register'
+import CreateJob from './pages/CreateJob'
+import Applicants from './pages/Applicants'
 
 const queryClient = new QueryClient()
 
 function App() {
+  const { role } = useSession()
+
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
 
       <Router>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
+          {/* Protected Routes */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Redirect based on role */}
+            <Route
+              path="/"
+              element={
+                role === 'applicant' ? (
+                  <Navigate to="/applicant" />
+                ) : (
+                  <Navigate to="/hr" />
+                )
+              }
+            />
+
+            <Route path="/applicant" element={<ApplicantDashboard />} />
+
+            <Route path="/hr">
+              <Route index element={<HrDashboard />} />
+              <Route path="post-job" element={<CreateJob />} />
+              <Route path="applicants" element={<Applicants />} />
+            </Route>
           </Route>
 
+          {/* Public Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
@@ -44,8 +80,7 @@ function App() {
             fontSize: '16px',
             maxWidth: '800px',
             padding: '16px 24px',
-            backgroundColor: 'var(--color-grey-0)',
-            color: 'var(--color-grey-700)',
+            backgroundColor: 'white',
           },
         }}
       />

@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 
 function AppLayout() {
   return (
-    <div>
+    <div className="container h-full p-10 mx-auto">
       <Outlet />
     </div>
   )
