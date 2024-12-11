@@ -3,7 +3,7 @@ import ApplicantJobTable from '../ui/ApplicantJobTable'
 import Container from '../ui/Container'
 import Header from '../ui/Header'
 import Logout from '../ui/Logout'
-import Messages from '../ui/Messages'
+import MessagesList from '../ui/MessagesList'
 import SearchQuery from '../ui/SearchQuery'
 
 function ApplicantDashboard() {
@@ -26,7 +26,7 @@ function ApplicantDashboard() {
           <ApplicantJobTable />
         </div>
 
-        <Messages />
+        <MessagesList />
       </div>
     </main>
   )

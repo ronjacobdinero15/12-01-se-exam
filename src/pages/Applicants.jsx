@@ -1,23 +1,21 @@
 import { Spinner } from '@nextui-org/react'
 import { HiCheck, HiOutlineXMark } from 'react-icons/hi2'
+import { useJob } from '../contexts/JobProvider'
 import { useUpdateApplicantStatus } from '../features/applicants/useUpdateApplicantStatus'
-import { useGetPendingApplications } from '../features/hr/useGetPendingApplications'
 import NavigateBack from '../ui/NavigateBack'
 import Table from '../ui/Table'
 import TableRow from '../ui/TableRow'
 import { formatDate } from '../utils/helpers'
+import { useGetJobApplications } from '../features/hr/useGetJobApplications'
 
 function Applicants() {
-  const { pendingApplications } = useGetPendingApplications()
+  const { jobApplications } = useGetJobApplications()
   const { updateApplicantStatus, isUpdating } = useUpdateApplicantStatus()
+  const { jobCount } = useJob()
 
   function handleApplication(application_id, decisionStatus) {
     updateApplicantStatus({ application_id, decision_status: decisionStatus })
   }
-
-  const pendingCount = pendingApplications.filter(
-    job => job.status === 'pending'
-  ).length
 
   return (
     <div>
@@ -35,14 +33,14 @@ function Applicants() {
           </TableRow>
         </thead>
         <tbody>
-          {pendingCount === 0 ? (
+          {jobCount === 0 ? (
             <tr>
               <td colSpan="6" className="text-xl text-center ">
                 Sorry, but no data available 😭
               </td>
             </tr>
           ) : (
-            pendingApplications.map(
+            jobApplications.map(
               job =>
                 job.status === 'pending' && (
                   <TableRow

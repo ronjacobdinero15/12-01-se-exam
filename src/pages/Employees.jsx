@@ -1,13 +1,13 @@
-import { useGetPendingApplications } from '../features/hr/useGetPendingApplications'
+import { useGetJobApplications } from '../features/hr/useGetJobApplications'
 import NavigateBack from '../ui/NavigateBack'
 import Table from '../ui/Table'
 import TableRow from '../ui/TableRow'
 import { formatDate } from '../utils/helpers'
 
 function Employees() {
-  const { pendingApplications } = useGetPendingApplications()
+  const { jobApplications } = useGetJobApplications()
 
-  const employees = pendingApplications.filter(
+  const employees = jobApplications.filter(
     application => application.status === 'accepted'
   )
 
@@ -36,11 +36,9 @@ function Employees() {
                 key={employee.application_id}
                 className="hover:bg-gray-100"
               >
-                <td className="w-[8rem]">{employee.applicant_id}</td>
+                <td className="w-[10rem]">{employee.applicant_id}</td>
                 <td>{employee.applicant_name}</td>
-                <td>{employee.applicant_title}</td>
-                <td className="w-[12rem]">{employee.years_of_experience}</td>
-                <td className="w-[15rem]">{formatDate(employee.applied_at)}</td>
+                <td>{employee.job_title}</td>
               </TableRow>
             ))
           )}

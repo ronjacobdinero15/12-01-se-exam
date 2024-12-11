@@ -73,7 +73,7 @@ function getAllJobs($pdo) {
 	}
 }
 
-function getPendingApplications($pdo, $hr_id) {
+function getJobApplications($pdo, $hr_id) {
 	$sql = "SELECT * FROM job_applications WHERE hr_id = ?";
 	$stmt = $pdo->prepare($sql);
 	$executeQuery = $stmt->execute([$hr_id]);
@@ -137,10 +137,10 @@ function getJobsPosted($pdo, $hr_id) {
 // 	}
 // }
 
-function jobPost($pdo, $jobTitle, $jobDescription, $created_by) {
-    $sql = "INSERT INTO job_posts (jobTitle, jobDescription, created_by) VALUES(?,?,?)";
+function jobPost($pdo, $job_title, $job_description, $hr_id) {
+    $sql = "INSERT INTO job_posts (job_title, job_description, hr_id) VALUES(?,?,?)";
     $stmt = $pdo->prepare($sql);
-    $executeQuery = $stmt->execute([$jobTitle, $jobDescription, $created_by]);
+    $executeQuery = $stmt->execute([$job_title, $job_description, $hr_id]);
 
     if ($executeQuery) {
         return [

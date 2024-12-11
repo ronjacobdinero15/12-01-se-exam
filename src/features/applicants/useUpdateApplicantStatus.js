@@ -10,7 +10,7 @@ export function useUpdateApplicantStatus() {
     onSuccess: data => {
       if (data.success === 200) {
         toast.success(data.message)
-        queryClient.invalidateQueries(['pendingApplications'])
+        queryClient.invalidateQueries(['jobApplications'])
       }
     },
     onError: data => {

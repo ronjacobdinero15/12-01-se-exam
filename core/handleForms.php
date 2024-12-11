@@ -27,8 +27,8 @@ function handleGet($pdo) {
         case 'getJobsPosted':
             echo json_encode(getJobsPosted($pdo, $_GET['hr_id']));
             break;
-        case 'getPendingApplications':
-            echo json_encode(getPendingApplications($pdo, $_GET['hr_id']));
+        case 'getJobApplications':
+            echo json_encode(getJobApplications($pdo, $_GET['hr_id']));
             break;
         // case 'getDoctorByID':
         //     echo json_encode(getDoctorByID($pdo, $_GET['doctor_id']));
@@ -49,7 +49,7 @@ function handlePost($pdo) {
             echo json_encode(login($pdo, $data['username'], sha1($data['password'])));
             break;
         case 'jobPost':
-            echo json_encode(jobPost($pdo, $data['jobTitle'], $data['jobDescription'], $data['created_by']));
+            echo json_encode(jobPost($pdo, $data['job_title'], $data['job_description'], $data['hr_id']));
             break;
         case 'applyJob':
             echo json_encode(applyJob($pdo, $data['job_id'], $data['job_title'], $data['job_description'], $data['applicant_id'], $data['applicant_name'], $data['years_of_experience'], $data['hr_id']));

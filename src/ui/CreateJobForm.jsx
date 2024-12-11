@@ -14,7 +14,11 @@ function CreateJobForm() {
 
     if (!jobTitle || !jobDescription) return
 
-    postJob({ jobTitle, jobDescription, created_by: id })
+    postJob({
+      job_title: jobTitle,
+      job_description: jobDescription,
+      hr_id: id,
+    })
   }
 
   return (
@@ -93,7 +97,6 @@ function CreateJobForm() {
               />
             </svg>
           }
-          s
         >
           {isLoading ? 'Posting Job...' : 'Post Job'}
         </Button>
